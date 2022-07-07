@@ -1,0 +1,90 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block content %}
+
+<link href="{% static 'css/Style1.css' %}" rel="stylesheet" />
+<script src="{% static 'js/JavaScript.js' %}"></script>
+
+<div class="w3ls_w3l_banner_nav_right_grid">
+    <h3>Shopping Cart</h3>
+    <div class="w3ls_w3l_banner_nav_right_grid1" style="margin: 50px 0px 0px 120px">
+        <table class="table">
+            <tr>
+                <th style="color: black;">Product Image</th>
+                <th style="color: black;">Product Name</th>
+                <th style="color: black;">Quantity</th>
+                <th style="color: black;">Price</th>
+                <th style="color: black;">Discount</th>
+                <th style="color: black;">Amount</th>
+                <th style="color: black;">Remove</th>
+            </tr>
+            {% for item in cartitems %}
+            <tr>
+                <td><img src="{{item.product.pic.url}}" width="100" height="100" alt=""></td>
+                <td style="color: black;">{{item.product.name}}</td>
+                <!-- <td>{{item.product.quantity}}</td> -->
+                <td style="color: black;">
+                    <div class="quantity buttons_added">
+                        <input type="button" value="-" class="minus"/>
+                        <input type="number" style="width: 60px;" step="1" min="1" name="quantity" size="4"
+                            id="txtqty{{item.id}}" value="{{item.quantity}}" title="Qty" class="input-text qty text"
+                            onchange="updatecartqty('{{item.id}}', document.getElementById('txtqty{{item.id}}').value)"/>
+                        <input type="button" value="+" class="plus"/>
+                    </div>
+                </td>
+                <td style="color: black;">₹{{item.product.price}}</td>
+                <td style="color: black;">{{item.product.discount}}</td>
+                <td style="color: black;">₹{{item.product.discountedprice}}</td>
+                <td><a href="{% url 'remove-product' item.id %}" class="btn" style="background-color: #FA1818; color: #fff;">Remove</a></td>
+            </tr>
+            {% endfor %}
+
+        </table>
+        <!-- <a href="{% url 'checkout' %}" class="btn" style="background-color: #84C639; color: #fff;">Checkout</a> -->
+
+        <div class="checkout-left">	
+            <div class="col-md-4 checkout-left-basket">
+                <h4><a href="{% url 'products' %}" style="color: #fff;">Continue to basket</a></h4>
+                <ul>
+                    {% for item in cartitems %}
+
+                    <li>{{item.product.name}} x {{item.quantity}} <i>-</i> <span>₹{{item.product.discountedprice}}</span></li>
+
+                    {% endfor %}
+
+                    <li style="color: black; font-size: 1.1em; font-weight: 700;">Total Amount <i>-</i> <span>₹{{totalamount}}</span></li>
+                </ul>
+            </div>
+            <div class="col-md-12 address_form_agile">
+                                <div class="checkout-left-basket">
+                        <a href="{% url 'checkout' %}" class="btn" style="background-color: #FA1818; color: #fff; padding: 10px; font-weight: 1000; font-size: 1.2em; margin-left: -15px;">Proceed to Checkout</a>
+                  </div>
+                </div>
+        
+            <div class="clearfix"> </div>
+            
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function updatecartqty(cartid, qty) {
+        var cartvalues = {
+            'id': cartid,
+            'qty': qty
+        };
+        $.ajax({
+            url: "{% url 'updatecartqty' %}",
+            type: "GET",
+            data: cartvalues,
+            success: function (response) {
+                alert(response.msg);
+                window.location.href = "{% url 'viewcart' %}";
+            }
+        });
+    }
+</script>
+
+{% endblock %}

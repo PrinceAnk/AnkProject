@@ -1,0 +1,31 @@
+{% extends 'seller-header.html' %}
+{% load static %}
+
+{% block content %}
+<div class="forms">
+    <div class="row">
+        <h3 class="title1">Manage Products :</h3>
+        <table class="table">
+            <tr>
+                <th>Product Image</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Discount</th>
+            </tr>
+            {% for item in productdata %}
+            <tr>
+                <td><img src="{{item.pic.url}}" height="100" width="100" /></td>
+                <td>{{item.name}}</td>
+                <td>{{item.des}}</td>
+                <td>{{item.price}}</td>
+                <td>{{item.quantity}}</td>
+                <td>{{item.discount}}</td>
+                <td><a href="{% url 'edit-product' item.id %}">Edit</a> | <a href="{% url 'delete-product' item.id %}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

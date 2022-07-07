@@ -1,0 +1,35 @@
+{% extends 'header.html' %}
+{% load static %}
+
+{% block content %}
+<div class="w3ls_w3l_banner_nav_right_grid">
+    <h3>Products</h3>
+    <div class="w3ls_w3l_banner_nav_right_grid1">
+        {% for item in productlist %}
+        <div class="col-md-2 w3ls_w3l_banner_left" style="margin: 50px 0px 0px 120px">
+            <div class="hover14 column">
+            <div class="agile_top_brand_left_grid w3l_agile_top_brand_left_grid">
+                <div class="agile_top_brand_left_grid_pos">
+                </div>
+                <div class="agile_top_brand_left_grid1">
+                    <figure>
+                        <div class="snipcart-item block">
+                            <div class="snipcart-thumb">
+                                <a href="{% url 'single' item.id %}">
+                                    <img src="{{item.pic.url}}" alt=" " width="150px" height="150px" /></a>
+                                <p>{{item.name}}</p>
+                                <h4>₹{{item.price}}<span>₹{{item.price}}</span></h4>
+                                <a href="{% url 'single' item.id %}" class="btn" style="background-color: #FA1818; color: #fff; position: relative;">View Details</a>
+                            </div>
+                        </div>
+                    </figure>
+                </div>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        <div class="clearfix"> </div>
+    </div>
+</div>
+
+{% endblock %}
